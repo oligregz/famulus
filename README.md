@@ -35,5 +35,5 @@ cd ../src/main/resources/
 
 return general project directory and start application:
 ```
-cd ../../..
+cd ../../.. && mvn spring-boot:run
 ```
