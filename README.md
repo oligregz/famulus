@@ -28,7 +28,12 @@ build container and image:
 cd database-docker && docker-compose up -d
 ```
 
-return general project test:
+access the path below, change the file extension application.properties.txt by removing the '.txt' for application.properties and add your database password to the file
 ```
-cd ..
+cd ../src/main/resources/
+```
+
+return general project directory and start application:
+```
+cd ../../..
 ```
