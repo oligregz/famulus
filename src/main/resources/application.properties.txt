@@ -1,7 +1,7 @@
 # PostgreSQL settings
 spring.datasource.url=jdbc:postgresql://localhost:2345/famulus_database
 spring.datasource.username=postgres
-spring.datasource.password=Root5432.
+spring.datasource.password=<DATABASE_PASSWORD>
 
 # Hibernate additional settings (optional)
 spring.jpa.hibernate.ddl-auto=update

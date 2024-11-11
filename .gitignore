@@ -36,3 +36,4 @@ build/
 database-docker/postgres-data
 famulus
 .env
+src/main/resources/application.properties
