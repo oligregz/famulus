@@ -26,14 +26,23 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+!**/src/main/**
+!**/src/test/**
 
 ### VS Code ###
 .vscode/
 
 ### Project ###
 database-docker/postgres-data
+postgres-data
 famulus
-.env
 src/main/resources/application.properties
+logs
+
+### Enviroment ###
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
