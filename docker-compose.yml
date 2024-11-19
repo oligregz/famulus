@@ -1,0 +1,65 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: famulus-api
+    container_name: famulus-api-dev
+    restart: unless-stopped
+    ports:
+      - "${API_PORT}:${API_PORT}"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: ${DB_URL_DOCKER}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      HIKARI_MAXIMUM_POOL_SIZE: ${HIKARI_MAXIMUM_POOL_SIZE}
+      HIKARI_MINIMUM_IDLE: ${HIKARI_MINIMUM_IDLE}
+      HIKARI_IDLE_TIMEOUT: ${HIKARI_IDLE_TIMEOUT}
+      HIKARI_CONNECTION_TIMEOUT: ${HIKARI_CONNECTION_TIMEOUT}
+      HIKARI_MAX_LIFETIME: ${HIKARI_MAX_LIFETIME}
+      SERVER_SERVLET_CONTEXT_PATH: ${SERVER_SERVLET_CONTEXT_PATH}
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - famulus-db-compose
+    networks:
+      - postgres-compose-network
+
+  famulus-db-compose:
+    image: postgres
+    container_name: famulus-db-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${EXTERNAL_DB_PORT}:${DB_PORT}"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data_prod:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
+
+volumes:
+  postgres_data_prod:
